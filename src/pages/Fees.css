@@ -1,0 +1,254 @@
+.fees-container {
+    padding: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.fees-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.fees-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.fees-header p {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+/* Stats Section */
+.fees-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.fee-stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.fee-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.fee-stat-icon {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 5rem;
+    opacity: 0.1;
+    transform: rotate(15deg);
+}
+
+.fee-stat-label {
+    font-size: 0.95rem;
+    color: #6b7280;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.fee-stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.fee-stat-footer {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #059669;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.fee-stat-footer.overdue {
+    color: #dc2626;
+}
+
+/* Content Layout */
+.fees-content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+}
+
+@media (max-width: 1024px) {
+    .fees-content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Fee Breakdown Table */
+.fee-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.fee-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.fee-card-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.fee-table-container {
+    overflow-x: auto;
+}
+
+.fee-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.fee-table th {
+    text-align: left;
+    padding: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+    color: #6b7280;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.fee-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+    color: #374151;
+    font-size: 0.95rem;
+}
+
+.fee-table tr:last-child td {
+    border-bottom: none;
+}
+
+.status-pill {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.status-pill.paid {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.status-pill.pending {
+    background: #fffbeb;
+    color: #d97706;
+}
+
+.status-pill.overdue {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+/* Transaction History */
+.transactions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.transaction-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    background: #f9fafb;
+    border: 1px solid #f3f4f6;
+    transition: background 0.2s;
+}
+
+.transaction-item:hover {
+    background: #f3f4f6;
+}
+
+.transaction-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e0e7ff;
+    color: #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.transaction-details {
+    flex: 1;
+    margin: 0 1rem;
+}
+
+.transaction-details h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.transaction-details p {
+    margin: 0.25rem 0 0;
+    font-size: 0.8rem;
+    color: #6b7280;
+}
+
+.transaction-amount {
+    font-weight: 700;
+    color: #111827;
+}
+
+.pay-now-btn {
+    padding: 0.5rem 1rem;
+    background-color: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.pay-now-btn:hover {
+    background-color: #4f46e5;
+}
