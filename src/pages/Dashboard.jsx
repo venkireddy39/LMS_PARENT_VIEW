@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     BarChart,
     Bar,
@@ -15,19 +16,18 @@ import { FaUserCheck, FaNotesMedical, FaRegMoneyBillAlt, FaBell } from 'react-ic
 import './Dashboard.css';
 
 const Dashboard = () => {
+    const navigate = useNavigate();
     // Mock Data
     const attendanceData = [
         { name: 'Present', value: 85, color: '#10b981' },
         { name: 'Absent', value: 10, color: '#ef4444' },
         { name: 'Late', value: 5, color: '#f59e0b' }
     ];
-
     const feeData = [
         { name: 'Term 1', paid: 50000, due: 0 },
         { name: 'Term 2', paid: 30000, due: 20000 },
         { name: 'Term 3', paid: 0, due: 50000 },
     ];
-
     const notices = [
         { id: 1, title: 'Parent-Teacher Meeting', date: 'Feb 15, 2026', type: 'Academic' },
         { id: 2, title: 'Annual Sports Day', date: 'Mar 10, 2026', type: 'Event' },
@@ -47,7 +47,6 @@ const Dashboard = () => {
     );
     const totalPaid = feeData.reduce((acc, curr) => acc + curr.paid, 0);
     const totalDue = feeData.reduce((acc, curr) => acc + curr.due, 0);
-
     return (
         <div className="dashboard-container">
             <header className="dashboard-header">
@@ -152,7 +151,7 @@ const Dashboard = () => {
                 <div className="chart-card card">
                     <div className="card-header">
                         <h3>Fee Payment Status</h3>
-                        <button className="view-link">Pay Now</button>
+                        <button className="view-link" onClick={() => navigate('/fees')}>Pay Now</button>
                     </div>
                     <div className="chart-container">
                         <div style={{ height: '250px', width: '100%' }}>
@@ -229,12 +228,13 @@ const Dashboard = () => {
                         </div>
                         <div className="fee-summary">
                             <div className="fee-stat-item">
-                                <span className="text-secondary text-sm">Total Paid</span>
+                                <span className="text-secondary text-sm">Total Paid : </span>
                                 <span className="text-success font-bold">₹{totalPaid.toLocaleString()}</span>
                             </div>
+
                             <div className="fee-stat-divider"></div>
                             <div className="fee-stat-item">
-                                <span className="text-secondary text-sm">Total Due</span>
+                                <span className="text-secondary text-sm">Total Due :  </span>
                                 <span className="text-danger font-bold">₹{totalDue.toLocaleString()}</span>
                             </div>
                         </div>

@@ -21,6 +21,14 @@
     margin: 0;
 }
 
+body.dark-mode .dashboard-header p {
+    color: #9ca3af;
+}
+
+body.dark-mode .dashboard-header p strong {
+    color: #f3f4f6;
+}
+
 /* Stats Grid */
 .stats-grid {
     display: grid;
@@ -66,6 +74,10 @@
     margin: 0;
     color: #6b7280;
     font-size: 0.875rem;
+}
+
+body.dark-mode .stat-info p {
+    color: #d1d5db;
 }
 
 .stat-subtitle {
@@ -137,8 +149,14 @@
 }
 
 .view-all {
-    font-size: 0.875rem;
+    font-size: 0.975rem;
     color: #6366f1;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.view-all:hover {
+    color: red;
     text-decoration: none;
     font-weight: 500;
 }
@@ -208,4 +226,37 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+}
+
+/* Dark Mode Overrides for Dashboard */
+body.dark-mode .dashboard-header h1 {
+    color: #f9fafb !important;
+}
+
+body.dark-mode .stat-info h3,
+body.dark-mode .card-header h3 {
+    color: #f9fafb !important;
+}
+
+body.dark-mode .stat-card,
+body.dark-mode .chart-card,
+body.dark-mode .notices-card {
+    background-color: var(--card-bg);
+}
+
+body.dark-mode .notice-item {
+    background-color: #374151;
+    border-color: #4b5563;
+}
+
+body.dark-mode .notice-content h4 {
+    color: #f9fafb;
+}
+
+body.dark-mode .legend-item {
+    color: #d1d5db;
+}
+
+body.dark-mode .fee-stat-item .text-secondary {
+    color: #d1d5db;
 }

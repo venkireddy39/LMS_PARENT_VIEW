@@ -1,0 +1,231 @@
+.exam-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.exam-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.exam-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem 0;
+}
+
+.exam-header p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Stats Section */
+.exam-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.stat-content h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.stat-content p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Content Sections */
+.exam-section {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.section-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+}
+
+/* Tables */
+.exam-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.exam-table th {
+    text-align: left;
+    padding: 1rem;
+    background: #f9fafb;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.exam-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.exam-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Badges */
+.grade-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    display: inline-block;
+}
+
+.grade-A {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.grade-B {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.grade-C {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.grade-F {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Progress Bar Styles */
+.progress-container {
+    width: 100%;
+    background-color: #e5e7eb;
+    border-radius: 9999px;
+    height: 8px;
+    margin-top: 0.5rem;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 9999px;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+body.dark-mode .progress-container {
+    background-color: #374151;
+}
+
+body.dark-mode .progress-bar {
+    background-color: #818cf8;
+}
+
+/* Dark Mode Overrides for Exam */
+body.dark-mode .exam-header h1,
+body.dark-mode .stat-content h3,
+body.dark-mode .section-header h2,
+body.dark-mode .exam-table td,
+body.dark-mode .grade-badge {
+    color: #f9fafb !important;
+}
+
+body.dark-mode .exam-header p,
+body.dark-mode .stat-content p,
+body.dark-mode .exam-table th {
+    color: #9ca3af !important;
+}
+
+body.dark-mode .stat-card,
+body.dark-mode .exam-section {
+    background-color: var(--card-bg);
+}
+
+body.dark-mode .exam-table th {
+    background-color: #374151;
+    border-bottom-color: #4b5563;
+}
+
+body.dark-mode .exam-table td {
+    border-bottom-color: #374151;
+}
+
+body.dark-mode .section-header {
+    border-bottom-color: #374151;
+}
+
+body.dark-mode .grade-A {
+    background: #064e3b;
+    color: #6ee7b7;
+}
+
+body.dark-mode .grade-B {
+    background: #1e3a8a;
+    color: #93c5fd;
+}
+
+body.dark-mode .grade-C {
+    background: #78350f;
+    color: #fcd34d;
+}
+
+body.dark-mode .grade-F {
+    background: #7f1d1d;
+    color: #fca5a5;
+}

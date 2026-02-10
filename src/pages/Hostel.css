@@ -1,0 +1,266 @@
+.hostel-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hostel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.hostel-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem 0;
+}
+
+.hostel-header p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.hostel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.hostel-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.hostel-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 0.75rem;
+}
+
+.card-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.room-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.detail-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.roommates-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.roommate-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    background: #f9fafb;
+    border-radius: 0.5rem;
+}
+
+.roommate-avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.roommate-info h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.roommate-info p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-approved {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.status-rejected {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.gatepass-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.gatepass-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: #f9fafb;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.warden-contact {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.contact-btn {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    background: white;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.contact-btn:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Dark Mode Overrides for Hostel */
+body.dark-mode .hostel-header h1,
+body.dark-mode .card-header h2,
+body.dark-mode .detail-value,
+body.dark-mode .roommate-info h3,
+body.dark-mode .warden-info h3,
+body.dark-mode .gatepass-item div[style*="font-weight: 600"] {
+    color: #f9fafb !important;
+}
+
+body.dark-mode .hostel-header p,
+body.dark-mode .detail-label,
+body.dark-mode .roommate-info p,
+body.dark-mode .warden-info .detail-label,
+body.dark-mode .gatepass-item div[style*="color: #6b7280"] {
+    color: #9ca3af !important;
+}
+
+body.dark-mode .hostel-card {
+    background-color: var(--card-bg);
+}
+
+body.dark-mode .card-header,
+body.dark-mode .contact-row {
+    border-bottom-color: #374151;
+}
+
+body.dark-mode .roommate-item,
+body.dark-mode .gatepass-item {
+    background-color: #374151;
+    color: #f9fafb;
+}
+
+body.dark-mode .contact-btn {
+    background-color: #374151;
+    border-color: #6366f1;
+    color: #818cf8;
+}
+
+body.dark-mode .contact-btn:hover {
+    background-color: #6366f1;
+    color: white;
+}
+
+body.dark-mode .status-approved {
+    background-color: #064e3b;
+    color: #6ee7b7;
+}
+
+body.dark-mode .status-pending {
+    background-color: #78350f;
+    color: #fcd34d;
+}
+
+body.dark-mode .status-rejected {
+    background-color: #7f1d1d;
+    color: #fca5a5;
+}
+
+body.dark-mode .roommate-avatar {
+    background-color: #4b5563;
+    color: #f9fafb;
+}
+
+body.dark-mode .table-text {
+    color: #e5e7eb !important;
+}
+
+body.dark-mode .table-text-primary {
+    color: #f9fafb !important;
+}
+
+body.dark-mode .table-text-secondary {
+    color: #9ca3af !important;
+}

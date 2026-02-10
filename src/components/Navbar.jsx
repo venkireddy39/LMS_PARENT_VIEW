@@ -5,10 +5,11 @@ import {
     FaUserCheck,
     FaMoneyCheckAlt,
     FaHeartbeat,
-    FaBullhorn,
     FaCog,
     FaSignOutAlt,
-    FaBuilding
+    FaBuilding,
+    FaGraduationCap,
+    FaBell
 } from 'react-icons/fa';
 import './Navbar.css';
 
@@ -18,8 +19,7 @@ const Navbar = () => {
         { name: 'Attendance', path: '/attendance', icon: <FaUserCheck /> },
         { name: 'Fees', path: '/fees', icon: <FaMoneyCheckAlt /> },
         { name: 'Hostel', path: '/hostel', icon: <FaBuilding /> },
-        { name: 'Health', path: '/health', icon: <FaHeartbeat /> },
-        { name: 'Notices', path: '/notices', icon: <FaBullhorn /> },
+        { name: 'Exams', path: '/exams', icon: <FaGraduationCap /> },
         { name: 'Settings', path: '/settings', icon: <FaCog /> }
     ];
 
@@ -41,7 +41,14 @@ const Navbar = () => {
                     </li>
                 ))}
             </ul>
-            <div className="navbar-footer">
+            <div className="navbar-footer" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <NavLink
+                    to="/notices"
+                    className={({ isActive }) => isActive ? 'menu-link active icon-only' : 'menu-link icon-only'}
+                    style={{ padding: '0.5rem', borderRadius: '50%', justifyContent: 'center' }}
+                >
+                    <FaBell size={20} />
+                </NavLink>
                 <button className="logout-btn">
                     <FaSignOutAlt className="icon-wrapper" />
                     <span>Logout</span>
