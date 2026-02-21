@@ -12,38 +12,49 @@ import {
 import './Exam.css';
 
 const Exam = () => {
-    // Learning Stats
+    const [activeCourses, setActiveCourses] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Learning Stats (Keep mock for others or update if needed)
     const learningStats = {
         totalCourses: 12,
         completed: 8,
-        inProgress: 2,
+        inProgress: activeCourses.length,
         totalHours: 145,
         certificates: 8
     };
 
-    // Active Courses
-    const activeCourses = [
-        {
-            id: 1,
-            title: 'Full Stack Web Development',
-            provider: 'Udemy',
-            progress: 65,
-            totalLessons: 45,
-            completedLessons: 29,
-            lastAccessed: '2 days ago'
-        },
-        {
-            id: 2,
-            title: 'Data Science with Python',
-            provider: 'Coursera',
-            progress: 30,
-            totalLessons: 60,
-            completedLessons: 18,
-            lastAccessed: 'Today'
-        }
-    ];
+    React.useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                const response = await fetch('/api/courses');
+                if (response.ok) {
+                    const data = await response.json();
+                    // Assuming data is an array of courses
+                    // Map backend fields to frontend if needed
+                    const normalizedCourses = data.map((course, index) => ({
+                        id: course.id || index,
+                        // Use courseName or title from API, fallback to mock if empty
+                        title: course.courseName || course.title || 'Untitled Course',
+                        provider: course.provider || 'Internal',
+                        progress: course.progress || 0,
+                        totalLessons: course.totalLessons || 0,
+                        completedLessons: course.completedLessons || 0,
+                        lastAccessed: course.lastAccessed || 'Recently'
+                    }));
+                    setActiveCourses(normalizedCourses);
+                }
+            } catch (err) {
+                console.error('Failed to fetch courses:', err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-    // Completed Courses / Certifications
+        fetchCourses();
+    }, []);
+
+    // Completed Courses / Certifications (Keeping mock for now as requested focused on In-Progress)
     const completedCourses = [
         {
             id: 1,
@@ -132,25 +143,39 @@ const Exam = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {activeCourses.map(course => (
-                                <tr key={course.id}>
-                                    <td>
-                                        <div style={{ fontWeight: '600' }}>{course.title}</div>
-                                        <div style={{ fontSize: '0.8rem', color: '#6b7280' }}>
-                                            {course.completedLessons}/{course.totalLessons} Lessons • Last: {course.lastAccessed}
-                                        </div>
-                                    </td>
-                                    <td>{course.provider}</td>
-                                    <td>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                            <div className="progress-container">
-                                                <div className="progress-bar" style={{ width: `${course.progress}%` }}></div>
-                                            </div>
-                                            <span style={{ fontSize: '0.8rem', fontWeight: 600 }}>{course.progress}%</span>
-                                        </div>
+                            {isLoading ? (
+                                <tr>
+                                    <td colSpan="3" style={{ textAlign: 'center', padding: '2rem', color: '#6b7280' }}>
+                                        Loading courses...
                                     </td>
                                 </tr>
-                            ))}
+                            ) : activeCourses.length > 0 ? (
+                                activeCourses.map(course => (
+                                    <tr key={course.id}>
+                                        <td>
+                                            <div style={{ fontWeight: '600' }}>{course.title}</div>
+                                            <div style={{ fontSize: '0.8rem', color: '#6b7280' }}>
+                                                {course.completedLessons}/{course.totalLessons} Lessons • Last: {course.lastAccessed}
+                                            </div>
+                                        </td>
+                                        <td>{course.provider}</td>
+                                        <td>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                <div className="progress-container">
+                                                    <div className="progress-bar" style={{ width: `${course.progress}%` }}></div>
+                                                </div>
+                                                <span style={{ fontSize: '0.8rem', fontWeight: 600 }}>{course.progress}%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="3" style={{ textAlign: 'center', padding: '2rem', color: '#6b7280' }}>
+                                        No in-progress courses found.
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </section>

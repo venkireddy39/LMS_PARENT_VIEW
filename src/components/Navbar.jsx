@@ -1,5 +1,6 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
     FaHome,
     FaUserCheck,
@@ -9,26 +10,83 @@ import {
     FaSignOutAlt,
     FaBuilding,
     FaGraduationCap,
-    FaBell
+    FaBell,
+    FaSun,
+    FaMoon
 } from 'react-icons/fa';
 import './Navbar.css';
+
+const SlideInText = ({ text, className }) => {
+    return (
+        <span className={className}>
+            {text.split('').map((char, i) => (
+                <motion.span
+                    key={i}
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{
+                        delay: i * 0.03,
+                        ease: "easeOut"
+                    }}
+                    style={{ display: 'inline-block' }}
+                >
+                    {char === ' ' ? '\u00A0' : char}
+                </motion.span>
+            ))}
+        </span>
+    );
+};
 
 const Navbar = () => {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const [theme, setTheme] = React.useState(localStorage.getItem('theme') || 'light');
+
+    React.useEffect(() => {
+        document.body.className = theme === 'dark' ? 'dark-mode' : '';
+        localStorage.setItem('theme', theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme(prev => prev === 'light' ? 'dark' : 'light');
+    };
+
     console.log('Current user in Navbar:', user);
 
     const getDisplayName = (userData) => {
         if (!userData) return 'Parent Portal';
-        const nameKeys = ['parentName', 'name', 'fullName', 'displayName', 'userName', 'firstName', 'first_name', 'username'];
-        for (const key of nameKeys) if (userData[key]) return userData[key];
-        for (const root of ['data', 'user', 'parent']) {
-            if (userData[root]) {
-                for (const key of nameKeys) if (userData[root][key]) return userData[root][key];
+
+        const extractName = (data) => {
+            if (!data || typeof data !== 'object') return null;
+            const keys = ['parentName', 'name', 'fullName', 'displayName', 'fatherName'];
+            for (const key of keys) {
+                if (data[key] && typeof data[key] === 'string' && !data[key].includes('@')) return data[key];
+            }
+            const fName = data.firstName || data.first_name;
+            const lName = data.lastName || data.last_name;
+            if (fName && typeof fName === 'string' && !fName.includes('@')) {
+                return (lName && typeof lName === 'string' && !lName.includes('@')) ? `${fName} ${lName}` : fName;
+            }
+            return null;
+        };
+
+        let result = extractName(userData);
+        if (result) return result;
+
+        const roots = ['parent', 'user', 'data'];
+        for (const root of roots) {
+            const nested = userData[root];
+            if (nested) {
+                result = extractName(nested);
+                if (result) return result;
+                if (typeof nested === 'object') {
+                    for (const subRoot of roots) {
+                        result = extractName(nested[subRoot]);
+                        if (result) return result;
+                    }
+                }
             }
         }
-        if (userData.email) return userData.email.split('@')[0];
-        if (userData.sub && userData.sub.includes('@')) return userData.sub.split('@')[0];
         return 'Parent Portal';
     };
 
@@ -53,8 +111,10 @@ const Navbar = () => {
     return (
         <div className="navbar glass-effect">
             <div className="navbar-header">
-                <h2>{parentName}</h2>
-                <span style={{ fontSize: '0.8rem', opacity: 0.7 }}>Parent Portal</span>
+                <h2>
+                    <SlideInText text={parentName} />
+                </h2>
+                <SlideInText text="Parent Portal" className="portal-subtitle" />
             </div>
             <ul className="navbar-menu">
                 {menuItems.map((item, index) => (
@@ -69,16 +129,22 @@ const Navbar = () => {
                     </li>
                 ))}
             </ul>
-            <div className="navbar-footer" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <div className="navbar-footer">
+                <button
+                    className="theme-toggle"
+                    onClick={toggleTheme}
+                    title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+                >
+                    {theme === 'light' ? <FaMoon size={20} /> : <FaSun size={20} />}
+                </button>
                 <NavLink
                     to="/notices"
                     className={({ isActive }) => isActive ? 'menu-link active icon-only' : 'menu-link icon-only'}
-                    style={{ padding: '0.5rem', borderRadius: '50%', justifyContent: 'center' }}
                 >
-                    <FaBell size={20} />
+                    <FaBell size={22} />
                 </NavLink>
                 <button className="logout-btn" onClick={handleLogout}>
-                    <FaSignOutAlt className="icon-wrapper" />
+                    <FaSignOutAlt className="icon-wrapper" size={20} />
                     <span>Logout</span>
                 </button>
             </div>

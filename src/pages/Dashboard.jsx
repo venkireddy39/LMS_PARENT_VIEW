@@ -25,7 +25,9 @@ const Dashboard = () => {
             if (!token) return;
 
             try {
-                const response = await fetch('/parent/me', {
+                // Use proper mapping if parentId is available
+                const endpoint = user.parentId || user.id ? `/parent/${user.parentId || user.id}` : '/parent/me';
+                const response = await fetch(endpoint, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
@@ -41,11 +43,11 @@ const Dashboard = () => {
                         data = data[0];
                     }
 
-                    if (data && (data.parentName || data.name)) {
+                    if (data && (typeof data === 'object')) {
                         const updatedUser = { ...user, ...data };
                         localStorage.setItem('user', JSON.stringify(updatedUser));
                         setUser(updatedUser);
-                        console.log('Real parent name updated:', data.parentName || data.name);
+                        console.log('User profile state updated from API');
                     }
                 }
             } catch (err) {
@@ -61,17 +63,107 @@ const Dashboard = () => {
 
     const getDisplayName = (userData) => {
         if (!userData) return 'Parent';
-        // Priority list of field names that might contain the parent's actual name
-        return userData.parentName ||
-            userData.name ||
-            userData.fullName ||
-            userData.displayName ||
-            userData.firstName ||
-            userData.email?.split('@')[0] ||
-            'Parent';
+
+        const extractName = (data) => {
+            if (!data || typeof data !== 'object') return null;
+
+            // Try standard name keys
+            const keys = ['parentName', 'name', 'fullName', 'displayName', 'fatherName'];
+            for (const key of keys) {
+                if (data[key] && typeof data[key] === 'string' && !data[key].includes('@')) return data[key];
+            }
+
+            // Try firstName + lastName
+            const fName = data.firstName || data.first_name;
+            const lName = data.lastName || data.last_name;
+            if (fName && typeof fName === 'string' && !fName.includes('@')) {
+                return (lName && typeof lName === 'string' && !lName.includes('@')) ? `${fName} ${lName}` : fName;
+            }
+            return null;
+        };
+
+        // 1. Try root level
+        let result = extractName(userData);
+        if (result) return result;
+
+        // 2. Try nested objects (parent, user, data)
+        const roots = ['parent', 'user', 'data'];
+        for (const root of roots) {
+            const nested = userData[root];
+            if (nested) {
+                // Check the nested object directly (e.g., userData.user)
+                result = extractName(nested);
+                if (result) return result;
+
+                // Check one level deeper (e.g., userData.parent.user)
+                if (typeof nested === 'object') {
+                    for (const subRoot of roots) {
+                        result = extractName(nested[subRoot]);
+                        if (result) return result;
+                    }
+                }
+            }
+        }
+
+        return 'Parent';
     };
 
     const parentName = getDisplayName(user);
+
+    const getChildName = (userData) => {
+        if (!userData) return null;
+
+        const findName = (obj) => {
+            if (!obj || typeof obj !== 'object') return null;
+
+            // Priority keys for students
+            const keys = ['studentName', 'name', 'fullName', 'firstName', 'displayName'];
+            for (const key of keys) {
+                if (obj[key] && typeof obj[key] === 'string' && !obj[key].includes('@')) {
+                    if (obj.lastName && !obj.lastName.includes('@')) return `${obj[key]} ${obj.lastName}`;
+                    return obj[key];
+                }
+            }
+
+            // Check nested user object
+            if (obj.user && typeof obj.user === 'object') {
+                const res = findName(obj.user);
+                if (res) return res;
+            }
+
+            // Check nested student object
+            if (obj.student && typeof obj.student === 'object') {
+                const res = findName(obj.student);
+                if (res) return res;
+            }
+
+            return null;
+        };
+
+        // 1. Check children array
+        if (userData.children && Array.isArray(userData.children)) {
+            for (const child of userData.children) {
+                const res = findName(child);
+                if (res) return res;
+            }
+        }
+
+        // 2. Check parent.students array (common in some backend responses)
+        const studentsList = userData.parent?.students || userData.students;
+        if (studentsList && Array.isArray(studentsList)) {
+            for (const item of studentsList) {
+                const res = findName(item);
+                if (res) return res;
+            }
+        }
+
+        // 3. Fallback to root studentName
+        if (userData.studentName && !userData.studentName.includes('@')) return userData.studentName;
+
+        return null;
+    };
+
+    const childName = getChildName(user);
 
     // Mock Data
     const attendanceData = [
@@ -108,7 +200,11 @@ const Dashboard = () => {
             <header className="dashboard-header">
                 <div>
                     <h1>Welcome back, {parentName}</h1>
-                    <p>Here's what's happening with your child's progress.</p>
+                    <p>
+                        {childName
+                            ? <span>Here’s how <span style={{ textDecoration: 'underline', fontWeight: 'bold' }}>{childName}</span> is doing!</span>
+                            : "Here's how your child is doing!"}
+                    </p>
                 </div>
                 <div className="header-actions">
                     <button className="btn-primary">View Full Report</button>

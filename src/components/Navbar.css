@@ -1,27 +1,50 @@
 .navbar {
     width: 100%;
-    height: 70px;
+    height: 85px;
     position: fixed;
     top: 0;
     left: 0;
     background: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     display: flex;
     justify-content: flex-start;
-    gap: 3rem;
+    gap: 4rem;
     align-items: center;
-    padding: 0 2rem;
+    padding: 0 3rem;
     z-index: 1000;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     box-sizing: border-box;
+}
+
+.navbar-header {
+    display: flex;
+    flex-direction: column;
 }
 
 .navbar-header h2 {
     margin: 0;
     font-size: 1.5rem;
     color: var(--primary-color);
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: -0.5px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05));
+}
+
+.navbar-header h2 span {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.portal-subtitle {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    display: block;
+    /* Ensure it starts on a new line if needed, or matches previous span behavior */
 }
 
 .navbar-menu {
@@ -30,7 +53,7 @@
     margin: 0;
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 2.5rem;
     flex: 1;
     justify-content: center;
 }
@@ -42,13 +65,13 @@
 .menu-link {
     display: flex;
     align-items: center;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: 0.75rem;
     text-decoration: none;
     color: var(--text-secondary);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-weight: 500;
-    font-size: 0.9rem;
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 
 .menu-link:hover {
@@ -64,70 +87,195 @@
 }
 
 .icon-wrapper {
-    margin-right: 0.5rem;
-    font-size: 1.1rem;
+    margin-right: 0.6rem;
+    font-size: 1.35rem;
     display: flex;
     align-items: center;
 }
 
 .navbar-footer {
     margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .logout-btn {
     display: flex;
     align-items: center;
-    padding: 0.5rem 1rem;
-    border: 1px solid #ef4444;
-    background: transparent;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    background: rgba(239, 68, 68, 0.1);
     color: #ef4444;
-    border-radius: 0.5rem;
+    border-radius: 12px;
     cursor: pointer;
     font-weight: 600;
-    transition: all 0.2s;
+    font-size: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .logout-btn:hover {
     background: #ef4444;
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.icon-only {
+    width: 42px;
+    height: 42px;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    color: var(--text-secondary);
+}
+
+.icon-only:hover {
+    background: white;
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+body.dark-mode .icon-only {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #9ca3af;
+}
+
+body.dark-mode .icon-only:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #818cf8;
+}
+
+body.dark-mode .icon-only.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
 }
 
 .logout-btn .icon-wrapper {
-    margin-right: 0.5rem;
+    margin-right: 0.6rem;
+}
+
+.theme-toggle {
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--text-secondary);
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: #f0f4ff;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: rotate(15deg);
+}
+
+body.dark-mode .theme-toggle {
+    border-color: #374151;
+    color: #f59e0b;
+    /* Amber for sun icon */
+}
+
+body.dark-mode .theme-toggle:hover {
+    background: #374151;
+    color: #fbbf24;
+}
+
+.theme-toggle {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #f59e0b;
+    /* Amber for sun/moon */
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-toggle:hover {
+    background: white;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 0 15px rgba(245, 158, 11, 0.2);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
+.theme-toggle svg {
+    filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.3));
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle:hover svg {
+    transform: rotate(360deg);
+}
+
+body.dark-mode .theme-toggle {
+    background: rgba(31, 41, 55, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #fbbf24;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 0 20px rgba(99, 102, 241, 0.1);
+}
+
+body.dark-mode .theme-toggle:hover {
+    background: #374151;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 0 25px rgba(99, 102, 241, 0.2);
 }
 
 /* Dark Mode Overrides */
 body.dark-mode .navbar,
 body.dark-mode .navbar.glass-effect {
-    background: #1f2937 !important;
-    border-bottom-color: #374151;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    background: rgba(17, 24, 39, 0.95) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 body.dark-mode .navbar-header h2 {
-    color: #818cf8;
+    color: #e5e7eb;
 }
 
 body.dark-mode .menu-link {
-    color: white;
+    color: #9ca3af;
 }
 
 body.dark-mode .menu-link:hover {
-    background: #374151;
+    background: rgba(255, 255, 255, 0.05);
     color: #818cf8;
 }
 
 body.dark-mode .menu-link.active {
     background: var(--primary-color);
     color: white;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
 }
 
 body.dark-mode .logout-btn {
-    border-color: #ef4444;
+    border-color: rgba(239, 68, 68, 0.4);
     color: #ef4444;
 }
 
 body.dark-mode .logout-btn:hover {
     background: #ef4444;
     color: white;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }

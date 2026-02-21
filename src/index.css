@@ -71,8 +71,8 @@ body {
 
 .main-content {
   flex: 1;
-  padding: 2rem;
-  margin-top: 70px;
+  padding: 2.5rem;
+  margin-top: 85px;
   width: 100%;
   overflow-y: auto;
 }
@@ -165,4 +165,40 @@ body.dark-mode .section-header {
 
 body.dark-mode .toggle-row {
   border-bottom-color: #374151;
+}
+
+body.dark-mode table,
+body.dark-mode .exam-table,
+body.dark-mode .attendance-table {
+  color: #f9fafb;
+}
+
+body.dark-mode th {
+  background-color: #374151;
+  color: #818cf8;
+}
+
+body.dark-mode td {
+  border-bottom-color: #374151;
+}
+
+body.dark-mode tr:hover {
+  background-color: rgba(99, 102, 241, 0.05);
+}
+
+body.dark-mode ::-webkit-scrollbar-track {
+  background: #111827;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb {
+  background: #374151;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+}
+
+body.dark-mode .glass-effect {
+  background: rgba(31, 41, 55, 0.7);
+  border-color: rgba(255, 255, 255, 0.1);
 }

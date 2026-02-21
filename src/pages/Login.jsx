@@ -83,7 +83,7 @@ const Login = () => {
             }
         } catch (err) {
             console.error('Fetch Fatal Error:', err);
-            setError(`Network Error: ${err.message}. Ensure backend is running at http://192.168.1.46:8081/auth/login`);
+            setError(`Network Error: ${err.message}. Ensure backend is running at http://192.168.1.36:8081/auth/login`);
         } finally {
             setIsLoading(false);
             console.log('--- Auth Debug End ---');
@@ -96,19 +96,36 @@ const Login = () => {
         // Priority 1: Use parentName from direct login response
         // Priority 2: Use apiData object properties
         // Priority 3: Fallback to email prefix
-        const parentNameFromApi = apiData?.parentName || apiData?.user?.parentName;
+        const extractInitialName = (data) => {
+            const keys = ['parentName', 'name', 'fullName', 'displayName', 'firstName', 'fatherName'];
+            for (const key of keys) {
+                // Check multiple levels of common nestings
+                const val = data?.[key] ||
+                    data?.user?.[key] ||
+                    data?.parent?.[key] ||
+                    data?.parent?.user?.[key];
+                if (val && typeof val === 'string' && !val.includes('@')) return val;
+            }
+            return '';
+        };
 
         const initialUser = {
             email,
-            parentName: parentNameFromApi || email.split('@')[0]
+            parentName: extractInitialName(apiData),
+            ...apiData?.user,
+            ...apiData
         };
 
         localStorage.setItem('user', JSON.stringify(initialUser));
 
-        // Fetch detailed profile from /parent/me for extra metadata
+        // Fetch detailed profile using proper mapping (via parentId if available)
         try {
-            console.log('Fetching profile from /parent/me...');
-            const parentRes = await fetch('/parent/me', {
+            // Check for identifiers that the backend might provide
+            const pId = apiData?.parentId || apiData?.user?.parentId || apiData?.id;
+            const endpoint = pId ? `/parent/${pId}` : '/parent/me';
+
+            console.log(`Fetching mapped parent profile from ${endpoint}...`);
+            const parentRes = await fetch(endpoint, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
