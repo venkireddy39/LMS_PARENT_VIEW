@@ -17,6 +17,62 @@ import './Dashboard.css';
 
 const Dashboard = () => {
     const navigate = useNavigate();
+    const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user') || '{}'));
+    const token = localStorage.getItem('token');
+
+    React.useEffect(() => {
+        const fetchParentProfile = async () => {
+            if (!token) return;
+
+            try {
+                const response = await fetch('/parent/me', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    let data = await response.json();
+                    console.log('Raw profile response:', data);
+
+                    // Normalize array response (common in list queries)
+                    if (Array.isArray(data) && data.length > 0) {
+                        data = data[0];
+                    }
+
+                    if (data && (data.parentName || data.name)) {
+                        const updatedUser = { ...user, ...data };
+                        localStorage.setItem('user', JSON.stringify(updatedUser));
+                        setUser(updatedUser);
+                        console.log('Real parent name updated:', data.parentName || data.name);
+                    }
+                }
+            } catch (err) {
+                console.error('Failed to fetch parent name:', err);
+            }
+        };
+
+        // Fetch if name is missing or looks like an email
+        if (!user.parentName || user.parentName.includes('@')) {
+            fetchParentProfile();
+        }
+    }, [token]);
+
+    const getDisplayName = (userData) => {
+        if (!userData) return 'Parent';
+        // Priority list of field names that might contain the parent's actual name
+        return userData.parentName ||
+            userData.name ||
+            userData.fullName ||
+            userData.displayName ||
+            userData.firstName ||
+            userData.email?.split('@')[0] ||
+            'Parent';
+    };
+
+    const parentName = getDisplayName(user);
+
     // Mock Data
     const attendanceData = [
         { name: 'Present', value: 85, color: '#10b981' },
@@ -51,8 +107,8 @@ const Dashboard = () => {
         <div className="dashboard-container">
             <header className="dashboard-header">
                 <div>
-                    <h1>Welcome back, Mr. Sharma</h1>
-                    <p>Here's what's happening with your child, <strong>Rohan Sharma</strong> (Class X-A)</p>
+                    <h1>Welcome back, {parentName}</h1>
+                    <p>Here's what's happening with your child's progress.</p>
                 </div>
                 <div className="header-actions">
                     <button className="btn-primary">View Full Report</button>
@@ -100,7 +156,7 @@ const Dashboard = () => {
                         <h3>Attendance Overview</h3>
                     </div>
                     <div className="chart-container">
-                        <div style={{ height: '250px', width: '100%', position: 'relative' }}>
+                        <div style={{ height: '250px', width: '100%', position: 'relative', minWidth: 0, minHeight: 0 }}>
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
                                     <defs>
@@ -154,7 +210,7 @@ const Dashboard = () => {
                         <button className="view-link" onClick={() => navigate('/fees')}>Pay Now</button>
                     </div>
                     <div className="chart-container">
-                        <div style={{ height: '250px', width: '100%' }}>
+                        <div style={{ height: '250px', width: '100%', minWidth: 0, minHeight: 0 }}>
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart
                                     data={feeData}
